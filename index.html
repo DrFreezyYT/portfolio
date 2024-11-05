@@ -17,22 +17,41 @@
 
     /* CSS Variables for Theme Colors */
     :root {
-      --color-primary: #9333ea;
-      --color-secondary: #d8b4fe;
-      --color-background: #f3e8ff;
-      --color-text: #3b0764;
-      --color-foreground: #ffffff;
-      --color-border: #e5e7eb;
+      /* Light Mode Colors */
+      --color-primary-light: #9333ea;
+      --color-secondary-light: #d8b4fe;
+      --color-background-light: #f3e8ff;
+      --color-text-light: #3b0764;
+      --color-foreground-light: #ffffff;
+      --color-border-light: #e5e7eb;
+
+      /* Dark Mode Colors */
+      --color-primary-dark: #8b5cf6;
+      --color-secondary-dark: #a78bfa;
+      --color-background-dark: #1f2937;
+      --color-text-dark: #f3f4f6;
+      --color-foreground-dark: #ffffff;
+      --color-border-dark: #4b5563;
+    }
+
+    /* Apply initial theme colors */
+    :root {
+      --color-primary: var(--color-primary-light);
+      --color-secondary: var(--color-secondary-light);
+      --color-background: var(--color-background-light);
+      --color-text: var(--color-text-light);
+      --color-foreground: var(--color-foreground-light);
+      --color-border: var(--color-border-light);
     }
 
     /* Dark Theme Overrides */
     body.dark {
-      --color-background: #1f2937;
-      --color-text: #f3f4f6;
-      --color-primary: #8b5cf6;
-      --color-secondary: #a78bfa;
-      --color-foreground: #ffffff;
-      --color-border: #4b5563;
+      --color-primary: var(--color-primary-dark);
+      --color-secondary: var(--color-secondary-dark);
+      --color-background: var(--color-background-dark);
+      --color-text: var(--color-text-dark);
+      --color-foreground: var(--color-foreground-dark);
+      --color-border: var(--color-border-dark);
     }
 
     /* Base Styles */
@@ -42,6 +61,9 @@
       background-color: var(--color-background);
       color: var(--color-text);
       transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     a {
@@ -58,6 +80,7 @@
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem;
+      flex: 1;
     }
 
     /* Flex Utilities */
@@ -115,20 +138,22 @@
       top: 0;
       z-index: 10;
       backdrop-filter: blur(10px);
-      background-color: rgba(147, 51, 234, 0.9); /* var(--color-primary) with opacity */
-      padding: 1rem;
+      background-color: rgba(147, 51, 234, 0.7); /* More transparent */
+      padding: 0.5rem 1rem; /* Reduced padding */
       transition: background-color 0.3s;
+      font-size: 0.875rem; /* Smaller font size */
     }
 
     header.dark {
-      background-color: rgba(139, 92, 246, 0.9); /* var(--color-primary) dark variant */
+      background-color: rgba(139, 92, 246, 0.7); /* Dark variant with transparency */
     }
 
     header h1 {
-      font-size: 1.5rem;
+      font-size: 1.125rem; /* Reduced font size */
       font-weight: 600;
       text-decoration: underline;
-      margin-bottom: 1rem;
+      margin-bottom: 0.25rem;
+      cursor: default;
     }
 
     nav ul {
@@ -143,9 +168,10 @@
       border: none;
       color: var(--color-foreground);
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.875rem;
       padding: 0.5rem 1rem;
       transition: background-color 0.3s, color 0.3s;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .nav-button:hover,
@@ -155,12 +181,21 @@
       color: var(--color-foreground);
     }
 
+    /* Project Clickable Elements */
+    .project-clickable {
+      cursor: pointer;
+    }
+
+    .project-clickable:hover {
+      text-decoration: underline;
+    }
+
     /* Theme Switcher Styles */
     .theme-switcher {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
 
     .switch {
@@ -318,13 +353,14 @@
     }
 
     .project-description {
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.5rem; /* Increased margin for better spacing */
       font-size: 0.95rem;
     }
 
     .project-links .button {
       margin-right: 0.5rem;
       margin-bottom: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     /* Button Styles */
@@ -340,6 +376,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
       font-size: 0.875rem;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .button:hover {
@@ -348,58 +385,22 @@
 
     /* Footer Styles */
     footer {
-      background-color: rgba(216, 180, 254, 0.3); /* var(--color-secondary) with opacity */
-      padding: 1.5rem 0;
-      backdrop-filter: blur(5px);
+      background-color: transparent; /* Made transparent */
+      padding: 1rem 0;
       transition: background-color 0.3s, border-color 0.3s;
+      position: relative;
+      width: 100%;
     }
 
     body.dark footer {
-      background-color: rgba(167, 139, 250, 0.3); /* var(--color-secondary) dark variant */
-    }
-
-    .footer-sections {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .footer-section h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-section ul li a,
-    .footer-section ul li button {
-      color: var(--color-text);
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 400;
-    }
-
-    .footer-section ul li a:hover,
-    .footer-section ul li button:hover {
-      text-decoration: underline;
+      background-color: transparent; /* Keep transparent in dark mode */
     }
 
     .footer-bottom {
       text-align: center;
       font-size: 0.875rem;
       font-weight: 400;
+      color: var(--color-text);
     }
 
     /* Modal Styles */
@@ -421,15 +422,30 @@
       padding: 2rem;
       border: 1px solid var(--color-border);
       width: 80%;
-      max-width: 600px;
+      max-width: 800px;
       border-radius: 8px;
       position: relative;
       color: var(--color-text);
       transition: background-color 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
     }
 
     body.dark .modal-content {
       border-color: #4b5563;
+    }
+
+    .modal-content img {
+      max-width: 200px;
+      border-radius: 8px;
+    }
+
+    .modal-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .close-button {
@@ -441,6 +457,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: color 0.3s;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .close-button:hover,
@@ -457,6 +474,7 @@
 
     .project-popup-links .button {
       margin-right: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     /* Color Palette Picker Styles */
@@ -477,6 +495,7 @@
       transition: background-color 0.3s;
       font-size: 0.875rem;
       font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     #color-palette-button:hover {
@@ -526,6 +545,7 @@
       transition: background-color 0.3s;
       font-size: 0.875rem;
       font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     #apply-colors:hover {
@@ -535,11 +555,11 @@
     /* Responsive Styles */
     @media (min-width: 768px) {
       header {
-        padding: 1.5rem;
+        padding: 1rem 2rem;
       }
 
       header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
 
       nav ul {
@@ -559,14 +579,18 @@
         height: 150px;
       }
 
-      .footer-sections {
+      .modal-content {
         flex-direction: row;
+      }
+
+      .modal-content img {
+        max-width: 250px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="min-h-screen flex flex-col transition-colors duration-300 bg-background text-text">
+  <div class="flex flex-col min-h-screen">
     <!-- Header -->
     <header>
       <div class="container flex flex-col md:flex-row justify-between items-center">
@@ -599,7 +623,7 @@
               <h2 class="card-title">About Me</h2>
             </div>
             <div class="card-content">
-              <p>Passionate 16-year-old Minecraft and backend developer from Berlin, Germany. Currently in 11th grade at a gymnasium, I'm dedicated to crafting innovative solutions and pushing the boundaries of what's possible in both the Minecraft universe and the world of backend development.</p>
+              <p id="about-text">I am a dedicated Minecraft and backend developer with a passion for creating innovative solutions and pushing the boundaries of what's possible in both gaming and software development.</p>
             </div>
           </div>
         </section>
@@ -613,36 +637,35 @@
             <div class="card-content">
               <!-- Project 1 -->
               <div class="project">
-                <div class="project-image">
+                <div class="project-image project-clickable" data-project="project1">
                   <img src="assets/placeholder.svg" alt="Project 1">
                 </div>
                 <div class="project-details">
                   <div class="project-header">
-                    <h3 class="project-title">Project 1</h3>
+                    <h3 class="project-title project-clickable" data-project="project1">Project 1</h3>
                     <span class="status online"></span>
                     <span class="status-text">Online</span>
                   </div>
-                  <p class="project-description">Description of Project 1</p>
+                  <p class="project-description">A comprehensive Minecraft plugin that enhances gameplay with new features and mechanics.</p>
                   <div class="project-links">
                     <a href="https://example.com/download1" target="_blank" class="button">Download</a>
                     <a href="https://github.com/example1" target="_blank" class="button">GitHub</a>
-                    <button class="button popup-trigger" data-project="project1">View Project</button>
                   </div>
                 </div>
               </div>
 
               <!-- Project 2 -->
               <div class="project">
-                <div class="project-image">
+                <div class="project-image project-clickable" data-project="project2">
                   <img src="assets/placeholder.svg" alt="Project 2">
                 </div>
                 <div class="project-details">
                   <div class="project-header">
-                    <h3 class="project-title">Project 2</h3>
+                    <h3 class="project-title project-clickable" data-project="project2">Project 2</h3>
                     <span class="status in-work"></span>
                     <span class="status-text">In Work</span>
                   </div>
-                  <p class="project-description">Description of Project 2</p>
+                  <p class="project-description">An ongoing backend system designed to optimize server performance and scalability.</p>
                   <div class="project-links">
                     <a href="https://example.com/download2" target="_blank" class="button">Download</a>
                     <a href="https://github.com/example2" target="_blank" class="button">GitHub</a>
@@ -653,12 +676,12 @@
               <!-- Add More Projects Here -->
               <!-- Example:
               <div class="project">
-                <div class="project-image">
+                <div class="project-image project-clickable" data-project="project3">
                   <img src="assets/placeholder.svg" alt="Project 3">
                 </div>
                 <div class="project-details">
                   <div class="project-header">
-                    <h3 class="project-title">Project 3</h3>
+                    <h3 class="project-title project-clickable" data-project="project3">Project 3</h3>
                     <span class="status offline"></span>
                     <span class="status-text">Offline</span>
                   </div>
@@ -681,13 +704,11 @@
               <h2 class="card-title">Contact</h2>
             </div>
             <div class="card-content">
-              <div class="contact-info flex items-center gap-2">
-                <span class="contact-icon">📧</span>
-                <span class="contact-text"><a href="mailto:admin@freezy.me">admin@freezy.me</a></span>
+              <div class="contact-info">
+                <span class="contact-text"><strong>Mail:</strong> admin@freezy.me</span>
               </div>
-              <div class="contact-info flex items-center gap-2">
-                <span class="contact-icon">💬</span>
-                <span class="contact-text">dattv</span>
+              <div class="contact-info">
+                <span class="contact-text"><strong>Discord:</strong> dattv</span>
               </div>
             </div>
           </div>
@@ -698,33 +719,6 @@
     <!-- Footer -->
     <footer>
       <div class="container">
-        <div class="footer-sections">
-          <!-- Legal -->
-          <div class="footer-section">
-            <h3>Legal</h3>
-            <ul>
-              <li><button class="popup-trigger" data-popup="tos">Terms of Service</button></li>
-              <li><button class="popup-trigger" data-popup="privacy">Privacy Policy</button></li>
-              <li><button class="popup-trigger" data-popup="agb">AGB</button></li>
-            </ul>
-          </div>
-          <!-- Contact -->
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <ul>
-              <li><a href="mailto:admin@freezy.me">Email</a></li>
-              <li><a href="#">Discord Server</a></li>
-            </ul>
-          </div>
-          <!-- Social -->
-          <div class="footer-section">
-            <h3>Social</h3>
-            <ul>
-              <li><a href="https://github.com/DaTTV" target="_blank">GitHub</a></li>
-              <li><a href="#" target="_blank">Twitter</a></li>
-            </ul>
-          </div>
-        </div>
         <div class="footer-bottom">
           <p>&copy; 2019-<span id="current-year"></span> DaTTV. All rights reserved.</p>
         </div>
@@ -735,7 +729,7 @@
     <!-- Terms of Service Modal -->
     <div id="popup-tos" class="modal">
       <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <span class="close-button" aria-label="Close Modal">&times;</span>
         <h2>Terms of Service</h2>
         <div class="modal-body">
           <h3>1. Acceptance of Terms</h3>
@@ -755,7 +749,7 @@
     <!-- Privacy Policy Modal -->
     <div id="popup-privacy" class="modal">
       <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <span class="close-button" aria-label="Close Modal">&times;</span>
         <h2>Privacy Policy</h2>
         <div class="modal-body">
           <h3>1. Information Collection</h3>
@@ -775,7 +769,7 @@
     <!-- AGB Modal -->
     <div id="popup-agb" class="modal">
       <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <span class="close-button" aria-label="Close Modal">&times;</span>
         <h2>Allgemeine Geschäftsbedingungen</h2>
         <div class="modal-body">
           <h3>1. Geltungsbereich</h3>
@@ -795,14 +789,30 @@
     <!-- Project 1 Modal -->
     <div id="popup-project1" class="modal">
       <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h2>Project 1</h2>
-        <div class="modal-body">
-          <img src="assets/favicon1.ico" alt="Project 1 Favicon" width="24" height="24">
-          <p>This is a longer description of Project 1, including its features, technologies used, and impact.</p>
+        <span class="close-button" aria-label="Close Modal">&times;</span>
+        <img src="assets/placeholder.svg" alt="Project 1 Image">
+        <div class="modal-details">
+          <h2>Project 1</h2>
+          <p>A comprehensive Minecraft plugin that enhances gameplay with new features and mechanics, providing players with an enriched gaming experience.</p>
           <div class="project-popup-links">
             <a href="https://example.com/download1" target="_blank" class="button">Download</a>
             <a href="https://github.com/example1" target="_blank" class="button">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 Modal -->
+    <div id="popup-project2" class="modal">
+      <div class="modal-content">
+        <span class="close-button" aria-label="Close Modal">&times;</span>
+        <img src="assets/placeholder.svg" alt="Project 2 Image">
+        <div class="modal-details">
+          <h2>Project 2</h2>
+          <p>An ongoing backend system designed to optimize server performance and scalability, ensuring seamless user experiences even under heavy loads.</p>
+          <div class="project-popup-links">
+            <a href="https://example.com/download2" target="_blank" class="button">Download</a>
+            <a href="https://github.com/example2" target="_blank" class="button">GitHub</a>
           </div>
         </div>
       </div>
@@ -812,10 +822,10 @@
     <!-- Example:
     <div id="popup-project3" class="modal">
       <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h2>Project 3</h2>
-        <div class="modal-body">
-          <img src="assets/favicon3.ico" alt="Project 3 Favicon" width="24" height="24">
+        <span class="close-button" aria-label="Close Modal">&times;</span>
+        <img src="assets/placeholder.svg" alt="Project 3 Image">
+        <div class="modal-details">
+          <h2>Project 3</h2>
           <p>This is a longer description of Project 3, including its features, technologies used, and impact.</p>
           <div class="project-popup-links">
             <a href="https://example.com/download3" target="_blank" class="button">Download</a>
@@ -830,21 +840,39 @@
     <div class="color-palette">
       <button id="color-palette-button">Color Palette</button>
       <div class="color-options">
+        <h3>Light Mode Colors</h3>
         <div class="color-option">
-          <label for="primary-color">Primary</label>
-          <input type="color" id="primary-color" name="primary-color" value="#9333ea">
+          <label for="primary-color-light">Primary</label>
+          <input type="color" id="primary-color-light" name="primary-color-light" value="#9333ea">
         </div>
         <div class="color-option">
-          <label for="secondary-color">Secondary</label>
-          <input type="color" id="secondary-color" name="secondary-color" value="#d8b4fe">
+          <label for="secondary-color-light">Secondary</label>
+          <input type="color" id="secondary-color-light" name="secondary-color-light" value="#d8b4fe">
         </div>
         <div class="color-option">
-          <label for="background-color">Background</label>
-          <input type="color" id="background-color" name="background-color" value="#f3e8ff">
+          <label for="background-color-light">Background</label>
+          <input type="color" id="background-color-light" name="background-color-light" value="#f3e8ff">
         </div>
         <div class="color-option">
-          <label for="text-color">Text</label>
-          <input type="color" id="text-color" name="text-color" value="#3b0764">
+          <label for="text-color-light">Text</label>
+          <input type="color" id="text-color-light" name="text-color-light" value="#3b0764">
+        </div>
+        <h3>Dark Mode Colors</h3>
+        <div class="color-option">
+          <label for="primary-color-dark">Primary</label>
+          <input type="color" id="primary-color-dark" name="primary-color-dark" value="#8b5cf6">
+        </div>
+        <div class="color-option">
+          <label for="secondary-color-dark">Secondary</label>
+          <input type="color" id="secondary-color-dark" name="secondary-color-dark" value="#a78bfa">
+        </div>
+        <div class="color-option">
+          <label for="background-color-dark">Background</label>
+          <input type="color" id="background-color-dark" name="background-color-dark" value="#1f2937">
+        </div>
+        <div class="color-option">
+          <label for="text-color-dark">Text</label>
+          <input type="color" id="text-color-dark" name="text-color-dark" value="#f3f4f6">
         </div>
         <button id="apply-colors">Apply Colors</button>
       </div>
@@ -859,8 +887,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       /* Theme Switching */
       const themeToggle = document.getElementById('theme-toggle');
-      const sunIcon = document.getElementById('sun-icon');
-      const moonIcon = document.getElementById('moon-icon');
 
       // Initialize theme based on localStorage or system preference
       const savedTheme = localStorage.getItem('theme');
@@ -897,7 +923,7 @@
           const targetSection = document.getElementById(targetId);
           if (targetSection) {
             window.scrollTo({
-              top: targetSection.offsetTop - 80, // Adjust offset as needed
+              top: targetSection.offsetTop - 70, // Adjust offset as needed
               behavior: 'smooth'
             });
           }
@@ -908,6 +934,7 @@
       const modalTriggers = document.querySelectorAll('.popup-trigger');
       const modals = document.querySelectorAll('.modal');
       const closeButtons = document.querySelectorAll('.close-button');
+      const projectClickables = document.querySelectorAll('.project-clickable');
 
       // Function to open modal
       const openModal = (modalId) => {
@@ -924,14 +951,6 @@
         }
       };
 
-      // Add event listeners to modal triggers
-      modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-          const popupType = trigger.getAttribute('data-popup') || trigger.getAttribute('data-project');
-          openModal(`popup-${popupType}`);
-        });
-      });
-
       // Add event listeners to close buttons
       closeButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -946,6 +965,14 @@
           if (event.target === modal) {
             closeModal(modal);
           }
+        });
+      });
+
+      // Add event listeners to project clickable elements
+      projectClickables.forEach(clickable => {
+        clickable.addEventListener('click', () => {
+          const projectId = clickable.getAttribute('data-project');
+          openModal(`popup-${projectId}`);
         });
       });
 
@@ -968,24 +995,42 @@
         }
       });
 
-      // Apply selected colors
+      // Apply selected colors for both light and dark modes
       applyColorsButton.addEventListener('click', () => {
-        const primaryColor = document.getElementById('primary-color').value;
-        const secondaryColor = document.getElementById('secondary-color').value;
-        const backgroundColor = document.getElementById('background-color').value;
-        const textColor = document.getElementById('text-color').value;
+        // Light Mode Colors
+        const primaryColorLight = document.getElementById('primary-color-light').value;
+        const secondaryColorLight = document.getElementById('secondary-color-light').value;
+        const backgroundColorLight = document.getElementById('background-color-light').value;
+        const textColorLight = document.getElementById('text-color-light').value;
 
-        document.documentElement.style.setProperty('--color-primary', primaryColor);
-        document.documentElement.style.setProperty('--color-secondary', secondaryColor);
-        document.documentElement.style.setProperty('--color-background', backgroundColor);
-        document.documentElement.style.setProperty('--color-text', textColor);
+        // Dark Mode Colors
+        const primaryColorDark = document.getElementById('primary-color-dark').value;
+        const secondaryColorDark = document.getElementById('secondary-color-dark').value;
+        const backgroundColorDark = document.getElementById('background-color-dark').value;
+        const textColorDark = document.getElementById('text-color-dark').value;
+
+        // Apply Light Mode Colors
+        document.documentElement.style.setProperty('--color-primary-light', primaryColorLight);
+        document.documentElement.style.setProperty('--color-secondary-light', secondaryColorLight);
+        document.documentElement.style.setProperty('--color-background-light', backgroundColorLight);
+        document.documentElement.style.setProperty('--color-text-light', textColorLight);
+
+        // Apply Dark Mode Colors
+        document.documentElement.style.setProperty('--color-primary-dark', primaryColorDark);
+        document.documentElement.style.setProperty('--color-secondary-dark', secondaryColorDark);
+        document.documentElement.style.setProperty('--color-background-dark', backgroundColorDark);
+        document.documentElement.style.setProperty('--color-text-dark', textColorDark);
 
         // Save to localStorage
         localStorage.setItem('colorPalette', JSON.stringify({
-          primary: primaryColor,
-          secondary: secondaryColor,
-          background: backgroundColor,
-          text: textColor
+          primaryLight: primaryColorLight,
+          secondaryLight: secondaryColorLight,
+          backgroundLight: backgroundColorLight,
+          textLight: textColorLight,
+          primaryDark: primaryColorDark,
+          secondaryDark: secondaryColorDark,
+          backgroundDark: backgroundColorDark,
+          textDark: textColorDark
         }));
 
         // Hide color options
@@ -995,17 +1040,84 @@
       // Load saved color palette on page load
       const savedPalette = JSON.parse(localStorage.getItem('colorPalette'));
       if (savedPalette) {
-        document.documentElement.style.setProperty('--color-primary', savedPalette.primary);
-        document.documentElement.style.setProperty('--color-secondary', savedPalette.secondary);
-        document.documentElement.style.setProperty('--color-background', savedPalette.background);
-        document.documentElement.style.setProperty('--color-text', savedPalette.text);
+        // Apply Light Mode Colors
+        document.documentElement.style.setProperty('--color-primary-light', savedPalette.primaryLight);
+        document.documentElement.style.setProperty('--color-secondary-light', savedPalette.secondaryLight);
+        document.documentElement.style.setProperty('--color-background-light', savedPalette.backgroundLight);
+        document.documentElement.style.setProperty('--color-text-light', savedPalette.textLight);
 
-        // Update color input values
-        document.getElementById('primary-color').value = savedPalette.primary;
-        document.getElementById('secondary-color').value = savedPalette.secondary;
-        document.getElementById('background-color').value = savedPalette.background;
-        document.getElementById('text-color').value = savedPalette.text;
+        // Apply Dark Mode Colors
+        document.documentElement.style.setProperty('--color-primary-dark', savedPalette.primaryDark);
+        document.documentElement.style.setProperty('--color-secondary-dark', savedPalette.secondaryDark);
+        document.documentElement.style.setProperty('--color-background-dark', savedPalette.backgroundDark);
+        document.documentElement.style.setProperty('--color-text-dark', savedPalette.textDark);
+
+        // Update color input values for both light and dark modes
+        document.getElementById('primary-color-light').value = savedPalette.primaryLight;
+        document.getElementById('secondary-color-light').value = savedPalette.secondaryLight;
+        document.getElementById('background-color-light').value = savedPalette.backgroundLight;
+        document.getElementById('text-color-light').value = savedPalette.textLight;
+
+        document.getElementById('primary-color-dark').value = savedPalette.primaryDark;
+        document.getElementById('secondary-color-dark').value = savedPalette.secondaryDark;
+        document.getElementById('background-color-dark').value = savedPalette.backgroundDark;
+        document.getElementById('text-color-dark').value = savedPalette.textDark;
       }
+
+      /* About Me Text Rotation */
+      const aboutText = document.getElementById('about-text');
+      const aboutTexts = [
+        "I am a dedicated Minecraft and backend developer with a passion for creating innovative solutions and pushing the boundaries of what's possible in both gaming and software development.",
+        "Specializing in Minecraft plugins, I enhance gameplay experiences with unique features and mechanics.",
+        "Passionate about backend systems, I design and implement scalable solutions to optimize performance.",
+        "Loves creating innovative solutions that bridge the gap between gaming and technology.",
+        "Committed to continuous learning, I stay updated with the latest trends in software development.",
+        "Building scalable applications that cater to diverse user needs and improve overall functionality.",
+        "Enjoys collaborating on projects, fostering teamwork, and driving successful outcomes."
+      ];
+      let currentIndex = 0;
+      const animationDuration = 2500; // 2.5 seconds
+      const rotationInterval = 30000; // 30 seconds
+
+      function animateTextChange(newText) {
+        const originalText = aboutText.textContent;
+        const length = originalText.length;
+        let step = 0;
+        const totalSteps = animationDuration / 100; // Update every 100ms
+        const shrinkSteps = Math.floor(totalSteps / 2);
+        const expandSteps = totalSteps - shrinkSteps;
+        const interval = setInterval(() => {
+          if (step < shrinkSteps) {
+            // Shrinking and randomizing
+            const randomLength = Math.max(Math.floor(length * (1 - step / shrinkSteps)), 5);
+            let randomized = '';
+            for (let i = 0; i < randomLength; i++) {
+              randomized += String.fromCharCode(33 + Math.floor(Math.random() * 94)); // Random ASCII chars
+            }
+            aboutText.textContent = randomized;
+          } else if (step < totalSteps) {
+            // Expanding to new text
+            const progress = (step - shrinkSteps) / expandSteps;
+            const newLength = Math.min(Math.floor(newText.length * progress), newText.length);
+            aboutText.textContent = newText.substring(0, newLength);
+          } else {
+            // Final step to ensure full text
+            aboutText.textContent = newText;
+            clearInterval(interval);
+          }
+          step++;
+        }, 100);
+      }
+
+      function rotateAboutText() {
+        const nextIndex = (currentIndex + 1) % aboutTexts.length;
+        const newText = aboutTexts[nextIndex];
+        animateTextChange(newText);
+        currentIndex = nextIndex;
+      }
+
+      // Initial rotation setup
+      setInterval(rotateAboutText, rotationInterval);
     });
   </script>
 </body>
