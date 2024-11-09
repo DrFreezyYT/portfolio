@@ -1,1127 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark"> <!-- Added 'dark' class here -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DaTTV Portfolio</title>
-  
-  <!-- JetBrains Mono Font Integration -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  
-  <style>
-    /* =====================
-       CSS STYLESHEET
-    ===================== */
-
-    /* CSS Variables for Theme Colors */
-    :root {
-      /* Light Mode Colors */
-      --color-primary-light: #9333ea;
-      --color-secondary-light: #d8b4fe;
-      --color-background-light: #f3e8ff;
-      --color-text-light: #3b0764;
-      --color-foreground-light: #ffffff;
-      --color-border-light: #e5e7eb;
-
-      /* Dark Mode Colors */
-      --color-primary-dark: #8b5cf6;
-      --color-secondary-dark: #a78bfa;
-      --color-background-dark: #1f2937;
-      --color-text-dark: #f3f4f6;
-      --color-foreground-dark: #ffffff;
-      --color-border-dark: #4b5563;
-    }
-
-    /* Apply initial theme colors */
-    :root {
-      --color-primary: var(--color-primary-light);
-      --color-secondary: var(--color-secondary-light);
-      --color-background: var(--color-background-light);
-      --color-text: var(--color-text-light);
-      --color-foreground: var(--color-foreground-light);
-      --color-border: var(--color-border-light);
-    }
-
-    /* Dark Theme Overrides */
-    body.dark {
-      --color-primary: var(--color-primary-dark);
-      --color-secondary: var(--color-secondary-dark);
-      --color-background: var(--color-background-dark);
-      --color-text: var(--color-text-dark);
-      --color-foreground: var(--color-foreground-dark);
-      --color-border: var(--color-border-dark);
-    }
-
-    /* Base Styles */
-    body {
-      margin: 0;
-      font-family: 'JetBrains Mono', monospace;
-      background-color: var(--color-background);
-      color: var(--color-text);
-      transition: background-color 0.3s, color 0.3s;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    a {
-      color: var(--color-primary);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    a:hover {
-      color: var(--color-secondary);
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      flex: 1;
-    }
-
-    /* Flex Utilities */
-    .flex {
-      display: flex;
-    }
-
-    .flex-col {
-      flex-direction: column;
-    }
-
-    .flex-row {
-      flex-direction: row;
-    }
-
-    .items-center {
-      align-items: center;
-    }
-
-    .justify-between {
-      justify-content: space-between;
-    }
-
-    .space-x-4 > * + * {
-      margin-left: 1rem;
-    }
-
-    .space-y-16 > * + * {
-      margin-top: 4rem;
-    }
-
-    .mt-4 {
-      margin-top: 1rem;
-    }
-
-    .md\:flex-row {
-      flex-direction: row;
-    }
-
-    .md\:mb-0 {
-      margin-bottom: 0;
-    }
-
-    .p-4 {
-      padding: 1rem;
-    }
-
-    .md\:p-8 {
-      padding: 2rem;
-    }
-
-    /* Header Styles */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(10px);
-      background-color: rgba(147, 51, 234, 0.7); /* More transparent */
-      padding: 0.5rem 1rem; /* Reduced padding */
-      transition: background-color 0.3s;
-      font-size: 0.875rem; /* Smaller font size */
-    }
-
-    header.dark {
-      background-color: rgba(139, 92, 246, 0.7); /* Dark variant with transparency */
-    }
-
-    header h1 {
-      font-size: 1.125rem; /* Reduced font size */
-      font-weight: 600;
-      text-decoration: underline;
-      margin-bottom: 0.25rem;
-      cursor: default;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 1rem;
-    }
-
-    .nav-button {
-      background: none;
-      border: none;
-      color: var(--color-foreground);
-      cursor: pointer;
-      font-size: 0.875rem;
-      padding: 0.5rem 1rem;
-      transition: background-color 0.3s, color 0.3s;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .nav-button:hover,
-    .nav-button.active {
-      background-color: var(--color-secondary);
-      border-radius: 4px;
-      color: var(--color-foreground);
-    }
-
-    /* Project Clickable Elements */
-    .project-clickable {
-      cursor: pointer;
-    }
-
-    .project-clickable:hover {
-      text-decoration: underline;
-    }
-
-    /* Theme Switcher Styles */
-    .theme-switcher {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--color-secondary);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    /* Main Content Styles */
-    main {
-      flex-grow: 1;
-      padding: 1rem;
-    }
-
-    /* Card Styles */
-    .card {
-      background-color: rgba(216, 180, 254, 0.3); /* var(--color-secondary) with opacity */
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      padding: 1.5rem;
-      backdrop-filter: blur(5px);
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-
-    body.dark .card {
-      background-color: rgba(167, 139, 250, 0.3); /* var(--color-secondary) dark variant */
-    }
-
-    .card-header {
-      margin-bottom: 1rem;
-    }
-
-    .card-title {
-      font-size: 1.75rem;
-      margin: 0;
-    }
-
-    .card-content p {
-      font-size: 1rem;
-      margin: 0;
-    }
-
-    /* Project Styles */
-    .project {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 1.5rem;
-      gap: 1rem;
-      background-color: var(--color-background);
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      padding: 1rem;
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-
-    body.dark .project {
-      background-color: #2d3748; /* Dark background for projects */
-      border-color: #4b5563;
-    }
-
-    @media (min-width: 768px) {
-      .project {
-        flex-direction: row;
-        align-items: flex-start;
-      }
-    }
-
-    .project-image img {
-      border-radius: 8px;
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-    }
-
-    .project-details {
-      flex: 1;
-    }
-
-    .project-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      gap: 0.5rem;
-    }
-
-    .project-title {
-      font-size: 1.25rem;
-      margin: 0;
-      font-weight: 600;
-    }
-
-    .status {
-      width: 0.75rem;
-      height: 0.75rem;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .status.online {
-      background-color: #22c55e;
-    }
-
-    .status.in-work {
-      background-color: #f97316;
-    }
-
-    .status.offline {
-      background-color: #ef4444;
-    }
-
-    .status.discontinued {
-      background-color: #6b7280;
-    }
-
-    .status-text {
-      font-size: 0.875rem;
-      margin-left: 0.25rem;
-      font-weight: 400;
-    }
-
-    .project-description {
-      margin-bottom: 1.5rem; /* Increased margin for better spacing */
-      font-size: 0.95rem;
-    }
-
-    .project-links .button {
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Button Styles */
-    .button {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      background-color: var(--color-primary);
-      color: var(--color-foreground);
-      border: none;
-      border-radius: 4px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-size: 0.875rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .button:hover {
-      background-color: var(--color-secondary);
-    }
-
-    /* Footer Styles */
-    footer {
-      background-color: transparent; /* Made transparent */
-      padding: 1rem 0;
-      transition: background-color 0.3s, border-color 0.3s;
-      position: relative;
-      width: 100%;
-    }
-
-    body.dark footer {
-      background-color: transparent; /* Keep transparent in dark mode */
-    }
-
-    .footer-bottom {
-      text-align: center;
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--color-text);
-    }
-
-    /* Modal Styles */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5); /* Black with opacity */
-    }
-
-    .modal-content {
-      background-color: var(--color-background);
-      margin: 5% auto;
-      padding: 2rem;
-      border: 1px solid var(--color-border);
-      width: 80%;
-      max-width: 800px;
-      border-radius: 8px;
-      position: relative;
-      color: var(--color-text);
-      transition: background-color 0.3s, border-color 0.3s;
-      display: flex;
-      flex-direction: row;
-      gap: 1rem;
-    }
-
-    body.dark .modal-content {
-      border-color: #4b5563;
-    }
-
-    .modal-content img {
-      max-width: 200px;
-      border-radius: 8px;
-    }
-
-    .modal-details {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .close-button {
-      color: #aaa;
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .close-button:hover,
-    .close-button:focus {
-      color: #000;
-      text-decoration: none;
-    }
-
-    .modal-body h3 {
-      margin-top: 1rem;
-      font-size: 1.125rem;
-      font-weight: 600;
-    }
-
-    .project-popup-links .button {
-      margin-right: 0.5rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Color Palette Picker Styles */
-    .color-palette {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      z-index: 50;
-    }
-
-    #color-palette-button {
-      padding: 0.5rem 1rem;
-      background-color: var(--color-primary);
-      color: var(--color-foreground);
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-size: 0.875rem;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    #color-palette-button:hover {
-      background-color: var(--color-secondary);
-    }
-
-    .color-options {
-      display: none;
-      background-color: var(--color-background);
-      border: 1px solid var(--color-border);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-
-    .color-option {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      gap: 0.5rem;
-    }
-
-    .color-option label {
-      flex: 1;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
-
-    .color-option input[type="color"] {
-      width: 2rem;
-      height: 2rem;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    #apply-colors {
-      padding: 0.5rem 1rem;
-      background-color: var(--color-secondary);
-      color: var(--color-foreground);
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-size: 0.875rem;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    #apply-colors:hover {
-      background-color: var(--color-primary);
-    }
-
-    /* Responsive Styles */
-    @media (min-width: 768px) {
-      header {
-        padding: 1rem 2rem;
-      }
-
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      nav ul {
-        gap: 2rem;
-      }
-
-      .theme-switcher {
-        margin-top: 0;
-      }
-
-      .card {
-        padding: 2rem;
-      }
-
-      .project-image img {
-        width: 150px;
-        height: 150px;
-      }
-
-      .modal-content {
-        flex-direction: row;
-      }
-
-      .modal-content img {
-        max-width: 250px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DaTTV Portfolio</title>
+
+    <!-- Tailwind CSS with dark mode configured to 'class' -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Use 'class' strategy for dark mode
+            theme: {
+                extend: {},
+            },
+            plugins: [],
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+
+    <!-- JetBrains Mono Font -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* Button Styles */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            background-color: #8b5cf6;
+            /* Dark mode primary color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.875rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #a78bfa;
+            /* Dark mode secondary color */
+        }
+
+        /* Navigation Button Styles */
+        .nav-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-button:hover {
+            color: #a78bfa;
+            /* Secondary color */
+        }
+    </style>
 </head>
-<body>
-  <div class="flex flex-col min-h-screen">
-    <!-- Header -->
-    <header>
-      <div class="container flex flex-col md:flex-row justify-between items-center">
-        <h1>DaTTV</h1>
-        <nav>
-          <ul>
-            <li><button class="nav-button" data-target="about">About</button></li>
-            <li><button class="nav-button" data-target="projects">Projects</button></li>
-            <li><button class="nav-button" data-target="contact">Contact</button></li>
-          </ul>
-        </nav>
-        <div class="theme-switcher">
-          <span id="sun-icon">☀️</span>
-          <label class="switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider"></span>
-          </label>
-          <span id="moon-icon">🌙</span>
-        </div>
-      </div>
-    </header>
 
-    <!-- Main Content -->
-    <main>
-      <div class="container space-y-16">
-        <!-- About Section -->
-        <section id="about" class="scroll-mt-20">
-          <div class="card">
-            <div class="card-header">
-              <h2 class="card-title">About Me</h2>
+<body class="bg-gray-800 text-gray-100 font-mono"> <!-- Set dark mode classes here -->
+    <div id="app" class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="sticky top-0 z-10 bg-purple-700 text-white p-4 shadow-md">
+            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+                <h1 class="text-lg font-semibold">DaTTV</h1>
+                <nav class="mt-4 md:mt-0 space-x-4">
+                    <button class="nav-button" @click="scrollTo('about')">About</button>
+                    <button class="nav-button" @click="scrollTo('projects')">Projects</button>
+                    <button class="nav-button" @click="scrollTo('contact')">Contact</button>
+                </nav>
+                <!-- Theme Switcher Removed -->
             </div>
-            <div class="card-content">
-              <p id="about-text">I am a dedicated Minecraft and backend developer with a passion for creating innovative solutions and pushing the boundaries of what's possible in both gaming and software development.</p>
-            </div>
-          </div>
-        </section>
+        </header>
 
-        <!-- Projects Section -->
-        <section id="projects" class="scroll-mt-20">
-          <div class="card">
-            <div class="card-header">
-              <h2 class="card-title">Projects</h2>
-            </div>
-            <div class="card-content">
-              <!-- Project 1 -->
-              <div class="project">
-                <div class="project-image project-clickable" data-project="project1">
-                  <img src="https://raw.githubusercontent.com/DrFreezyYT/drfreezyyt.github.io/main/A3326941-7740-44B4-B16E-24B3CE2BCEA2.webp" alt="minecraft_enchant_order_ico">
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <!-- About Section -->
+            <section id="about" class="mb-8">
+                <div class="bg-gray-700 rounded shadow-lg p-6">
+                    <h2 class="text-2xl font-semibold mb-2">About Me</h2>
+                    <p>{{ aboutText }}</p>
                 </div>
-                <div class="project-details">
-                  <div class="project-header">
-                    <h3 class="project-title project-clickable" data-project="project1">Minecraft Enchant Order</h3>
-                    <span class="status online"></span>
-                    <span class="status-text">Online</span>
-                  </div>
-                  <p class="project-description">A calculator for making the most efficient enchants in Minecraft!</p>
-                  <div class="project-links">
-                    <a href="https://enchant.freezy.me/" target="_blank" class="button">Page</a>
-                    <a href="https://github.com/DrFreezyYT/enchant-order.github.io" target="_blank" class="button">GitHub</a>
-                  </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="mb-8">
+                <div class="bg-gray-700 rounded shadow-lg p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Projects</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="project in projects" :key="project.id"
+                            class="bg-gray-800 rounded shadow-lg p-4 flex flex-col">
+                            <img :src="project.image" :alt="project.title" class="rounded-lg mb-4 h-40 object-cover">
+                            <h3 class="text-lg font-semibold">{{ project.title }}</h3>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <span :class="statusClass(project.status)"
+                                    class="inline-block w-3 h-3 rounded-full"></span>
+                                <span class="text-sm">{{ statusDisplay(project.status) }}</span>
+                            </div>
+                            <p class="mt-2 flex-grow">{{ project.description }}</p>
+                            <div class="mt-4 flex flex-wrap space-x-2">
+                                <a v-if="project.page" :href="project.page" target="_blank" class="button">Page</a>
+                                <a v-if="project.github" :href="project.github" target="_blank"
+                                    class="button">GitHub</a>
+                                <a v-if="project.download" :href="project.download" target="_blank"
+                                    class="button">Download</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+            </section>
 
-              <!-- Project 2 
-              <div class="project">
-                <div class="project-image project-clickable" data-project="project2">
-                  <img src="assets/placeholder.svg" alt="Project 2">
+            <!-- Contact Section -->
+            <section id="contact" class="mb-8">
+                <div class="bg-gray-700 rounded shadow-lg p-6">
+                    <h2 class="text-2xl font-semibold mb-2">Contact</h2>
+                    <p><strong>Email:</strong> <a href="mailto:admin@freezy.me"
+                            class="text-purple-400">admin@freezy.me</a></p>
+                    <p><strong>Discord:</strong> dattv</p>
                 </div>
-                <div class="project-details">
-                  <div class="project-header">
-                    <h3 class="project-title project-clickable" data-project="project2">Project 2</h3>
-                    <span class="status in-work"></span>
-                    <span class="status-text">In Work</span>
-                  </div>
-                  <p class="project-description">An ongoing backend system designed to optimize server performance and scalability.</p>
-                  <div class="project-links">
-                    <a href="https://example.com/download2" target="_blank" class="button">Download</a>
-                    <a href="https://github.com/example2" target="_blank" class="button">GitHub</a>
-                  </div>
-                </div>
-              </div>
-              -->
-              
-              <!-- Add More Projects Here -->
-              <!-- Example:
-              <div class="project">
-                <div class="project-image project-clickable" data-project="project3">
-                  <img src="assets/placeholder.svg" alt="Project 3">
-                </div>
-                <div class="project-details">
-                  <div class="project-header">
-                    <h3 class="project-title project-clickable" data-project="project3">Project 3</h3>
-                    <span class="status offline"></span>
-                    <span class="status-text">Offline</span>
-                  </div>
-                  <p class="project-description">Description of Project 3</p>
-                  <div class="project-links">
-                    <a href="https://example.com/download3" target="_blank" class="button">Download</a>
-                    <a href="https://github.com/example3" target="_blank" class="button">GitHub</a>
-                  </div>
-                </div>
-              </div>
-              -->
-            </div>
-          </div>
-        </section>
+            </section>
+        </main>
 
-        <!-- Contact Section -->
-        <section id="contact" class="scroll-mt-20">
-          <div class="card">
-            <div class="card-header">
-              <h2 class="card-title">Contact</h2>
-            </div>
-            <div class="card-content">
-              <div class="contact-info">
-                <span class="contact-text"><strong>Mail:</strong> admin@freezy.me</span>
-              </div>
-              <div class="contact-info">
-                <span class="contact-text"><strong>Discord:</strong> dattv</span>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="footer-bottom">
-          <p>&copy; 2019-<span id="current-year"></span> DaTTV. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Modals for Legal Documents -->
-    <!-- Terms of Service Modal -->
-    <div id="popup-tos" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <h2>Terms of Service</h2>
-        <div class="modal-body">
-          <h3>1. Acceptance of Terms</h3>
-          <p>By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>
-          <h3>2. Website Use</h3>
-          <p>You agree to use the website for lawful purposes only and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the website.</p>
-          <h3>3. Intellectual Property</h3>
-          <p>The content, organization, graphics, design, compilation, magnetic translation, digital conversion and other matters related to the Site are protected under applicable copyrights, trademarks and other proprietary rights.</p>
-          <h3>4. Disclaimer of Warranties</h3>
-          <p>The website is provided on an "as is" basis without any warranties of any kind, whether express or implied.</p>
-          <h3>5. Limitation of Liability</h3>
-          <p>In no event shall we be liable for any damages whatsoever (including, without limitation, incidental and consequential damages, lost profits, or damages resulting from lost data or business interruption) resulting from the use or inability to use the website.</p>
-        </div>
-      </div>
+        <!-- Footer -->
+        <footer class="bg-purple-700 text-white text-center py-4">
+            <p>&copy; 2019-{{ currentYear }} DaTTV. All rights reserved.</p>
+        </footer>
     </div>
 
-    <!-- Privacy Policy Modal -->
-    <div id="popup-privacy" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <h2>Privacy Policy</h2>
-        <div class="modal-body">
-          <h3>1. Information Collection</h3>
-          <p>We collect information from you when you register on our site, place an order, subscribe to our newsletter, respond to a survey or fill out a form.</p>
-          <h3>2. Information Use</h3>
-          <p>Any of the information we collect from you may be used in one of the following ways: To personalize your experience, to improve our website, to improve customer service, to process transactions, to send periodic emails.</p>
-          <h3>3. Information Protection</h3>
-          <p>We implement a variety of security measures to maintain the safety of your personal information when you place an order or enter, submit, or access your personal information.</p>
-          <h3>4. Cookie Usage</h3>
-          <p>Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser (if you allow) that enables the sites or service providers systems to recognize your browser and capture and remember certain information.</p>
-          <h3>5. Information Disclosure</h3>
-          <p>We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- AGB Modal -->
-    <div id="popup-agb" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <h2>Allgemeine Geschäftsbedingungen</h2>
-        <div class="modal-body">
-          <h3>1. Geltungsbereich</h3>
-          <p>Diese Allgemeinen Geschäftsbedingungen gelten für alle gegenwärtigen und zukünftigen Geschäftsbeziehungen zwischen uns und dem Kunden.</p>
-          <h3>2. Vertragsschluss</h3>
-          <p>Unsere Angebote sind freibleibend. Technische sowie sonstige Änderungen bleiben im Rahmen des Zumutbaren vorbehalten.</p>
-          <h3>3. Lieferung und Leistungszeit</h3>
-          <p>Liefertermine oder -fristen, die verbindlich oder unverbindlich vereinbart werden können, bedürfen der Schriftform.</p>
-          <h3>4. Gewährleistung</h3>
-          <p>Wir leisten für Mängel der Ware zunächst nach unserer Wahl Gewähr durch Nachbesserung oder Ersatzlieferung.</p>
-          <h3>5. Haftungsbeschränkungen</h3>
-          <p>Bei leicht fahrlässigen Pflichtverletzungen beschränkt sich unsere Haftung auf den nach der Art der Ware vorhersehbaren, vertragstypischen, unmittelbaren Durchschnittsschaden.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 1 Modal -->
-    <div id="popup-project1" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <img src="https://raw.githubusercontent.com/DrFreezyYT/drfreezyyt.github.io/main/A3326941-7740-44B4-B16E-24B3CE2BCEA2.webp" alt="minecraft_enchant_order_ico">
-        <div class="modal-details">
-          <h2>Minecraft Enchant Order</h2>
-          <p>A calculator for making the most efficient enchants in Minecraft!</p>
-          <div class="project-popup-links">
-            <a href="https://enchant.freezy.me/" target="_blank" class="button">Page</a>
-            <a href="https://github.com/DrFreezyYT/enchant-order.github.io" target="_blank" class="button">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 2 Modal -->
-    <!-- Example:
-    <div id="popup-project2" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <img src="assets/placeholder.svg" alt="Project 2 Image">
-        <div class="modal-details">
-          <h2>Project 2</h2>
-          <p>An ongoing backend system designed to optimize server performance and scalability, ensuring seamless user experiences even under heavy loads.</p>
-          <div class="project-popup-links">
-            <a href="https://example.com/download2" target="_blank" class="button">Download</a>
-            <a href="https://github.com/example2" target="_blank" class="button">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    -->
-
-    <!-- Add More Project Modals Here -->
-    <!-- Example:
-    <div id="popup-project3" class="modal">
-      <div class="modal-content">
-        <span class="close-button" aria-label="Close Modal">&times;</span>
-        <img src="assets/placeholder.svg" alt="Project 3 Image">
-        <div class="modal-details">
-          <h2>Project 3</h2>
-          <p>This is a longer description of Project 3, including its features, technologies used, and impact.</p>
-          <div class="project-popup-links">
-            <a href="https://example.com/download3" target="_blank" class="button">Download</a>
-            <a href="https://github.com/example3" target="_blank" class="button">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    -->
-
-    <!-- Color Palette Picker -->
-    <div class="color-palette">
-      <button id="color-palette-button">Color Palette</button>
-      <div class="color-options">
-        <h3>Light Mode Colors</h3>
-        <div class="color-option">
-          <label for="primary-color-light">Primary</label>
-          <input type="color" id="primary-color-light" name="primary-color-light" value="#9333ea">
-        </div>
-        <div class="color-option">
-          <label for="secondary-color-light">Secondary</label>
-          <input type="color" id="secondary-color-light" name="secondary-color-light" value="#d8b4fe">
-        </div>
-        <div class="color-option">
-          <label for="background-color-light">Background</label>
-          <input type="color" id="background-color-light" name="background-color-light" value="#f3e8ff">
-        </div>
-        <div class="color-option">
-          <label for="text-color-light">Text</label>
-          <input type="color" id="text-color-light" name="text-color-light" value="#3b0764">
-        </div>
-        <h3>Dark Mode Colors</h3>
-        <div class="color-option">
-          <label for="primary-color-dark">Primary</label>
-          <input type="color" id="primary-color-dark" name="primary-color-dark" value="#8b5cf6">
-        </div>
-        <div class="color-option">
-          <label for="secondary-color-dark">Secondary</label>
-          <input type="color" id="secondary-color-dark" name="secondary-color-dark" value="#a78bfa">
-        </div>
-        <div class="color-option">
-          <label for="background-color-dark">Background</label>
-          <input type="color" id="background-color-dark" name="background-color-dark" value="#1f2937">
-        </div>
-        <div class="color-option">
-          <label for="text-color-dark">Text</label>
-          <input type="color" id="text-color-dark" name="text-color-dark" value="#f3f4f6">
-        </div>
-        <button id="apply-colors">Apply Colors</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================
-       JAVASCRIPT
-  ===================== -->
-  <script>
-    // Wait for the DOM to load
-    document.addEventListener('DOMContentLoaded', () => {
-      /* Theme Switching */
-      const themeToggle = document.getElementById('theme-toggle');
-
-      // Initialize theme based on localStorage or system preference
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        themeToggle.checked = true;
-      } else if (savedTheme === 'light') {
-        document.body.classList.remove('dark');
-        themeToggle.checked = false;
-      } else {
-        // Default to system preference
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.classList.add('dark');
-          themeToggle.checked = true;
-        }
-      }
-
-      // Event listener for theme toggle
-      themeToggle.addEventListener('change', () => {
-        if (themeToggle.checked) {
-          document.body.classList.add('dark');
-          localStorage.setItem('theme', 'dark');
-        } else {
-          document.body.classList.remove('dark');
-          localStorage.setItem('theme', 'light');
-        }
-      });
-
-      /* Smooth Scrolling */
-      const navButtons = document.querySelectorAll('.nav-button');
-      navButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const targetId = button.getAttribute('data-target');
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            window.scrollTo({
-              top: targetSection.offsetTop - 70, // Adjust offset as needed
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
-
-      /* Modal Popups */
-      const modalTriggers = document.querySelectorAll('.popup-trigger');
-      const modals = document.querySelectorAll('.modal');
-      const closeButtons = document.querySelectorAll('.close-button');
-      const projectClickables = document.querySelectorAll('.project-clickable');
-
-      // Function to open modal
-      const openModal = (modalId) => {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-          modal.style.display = 'block';
-        }
-      };
-
-      // Function to close modal
-      const closeModal = (modal) => {
-        if (modal) {
-          modal.style.display = 'none';
-        }
-      };
-
-      // Add event listeners to close buttons
-      closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const modal = button.closest('.modal');
-          closeModal(modal);
-        });
-      });
-
-      // Close modals when clicking outside the modal content
-      window.addEventListener('click', (event) => {
-        modals.forEach(modal => {
-          if (event.target === modal) {
-            closeModal(modal);
-          }
-        });
-      });
-
-      // Add event listeners to project clickable elements
-      projectClickables.forEach(clickable => {
-        clickable.addEventListener('click', () => {
-          const projectId = clickable.getAttribute('data-project');
-          openModal(`popup-${projectId}`);
-        });
-      });
-
-      /* Current Year Display */
-      const currentYearSpan = document.getElementById('current-year');
-      const currentYear = new Date().getFullYear();
-      currentYearSpan.textContent = currentYear;
-
-      /* Color Palette Picker */
-      const colorPaletteButton = document.getElementById('color-palette-button');
-      const colorOptions = document.querySelector('.color-options');
-      const applyColorsButton = document.getElementById('apply-colors');
-
-      // Toggle color options visibility
-      colorPaletteButton.addEventListener('click', () => {
-        if (colorOptions.style.display === 'block') {
-          colorOptions.style.display = 'none';
-        } else {
-          colorOptions.style.display = 'block';
-        }
-      });
-
-      // Apply selected colors for both light and dark modes
-      applyColorsButton.addEventListener('click', () => {
-        // Light Mode Colors
-        const primaryColorLight = document.getElementById('primary-color-light').value;
-        const secondaryColorLight = document.getElementById('secondary-color-light').value;
-        const backgroundColorLight = document.getElementById('background-color-light').value;
-        const textColorLight = document.getElementById('text-color-light').value;
-
-        // Dark Mode Colors
-        const primaryColorDark = document.getElementById('primary-color-dark').value;
-        const secondaryColorDark = document.getElementById('secondary-color-dark').value;
-        const backgroundColorDark = document.getElementById('background-color-dark').value;
-        const textColorDark = document.getElementById('text-color-dark').value;
-
-        // Apply Light Mode Colors
-        document.documentElement.style.setProperty('--color-primary-light', primaryColorLight);
-        document.documentElement.style.setProperty('--color-secondary-light', secondaryColorLight);
-        document.documentElement.style.setProperty('--color-background-light', backgroundColorLight);
-        document.documentElement.style.setProperty('--color-text-light', textColorLight);
-
-        // Apply Dark Mode Colors
-        document.documentElement.style.setProperty('--color-primary-dark', primaryColorDark);
-        document.documentElement.style.setProperty('--color-secondary-dark', secondaryColorDark);
-        document.documentElement.style.setProperty('--color-background-dark', backgroundColorDark);
-        document.documentElement.style.setProperty('--color-text-dark', textColorDark);
-
-        // Save to localStorage
-        localStorage.setItem('colorPalette', JSON.stringify({
-          primaryLight: primaryColorLight,
-          secondaryLight: secondaryColorLight,
-          backgroundLight: backgroundColorLight,
-          textLight: textColorLight,
-          primaryDark: primaryColorDark,
-          secondaryDark: secondaryColorDark,
-          backgroundDark: backgroundColorDark,
-          textDark: textColorDark
-        }));
-
-        // Hide color options
-        colorOptions.style.display = 'none';
-      });
-
-      // Load saved color palette on page load
-      const savedPalette = JSON.parse(localStorage.getItem('colorPalette'));
-      if (savedPalette) {
-        // Apply Light Mode Colors
-        document.documentElement.style.setProperty('--color-primary-light', savedPalette.primaryLight);
-        document.documentElement.style.setProperty('--color-secondary-light', savedPalette.secondaryLight);
-        document.documentElement.style.setProperty('--color-background-light', savedPalette.backgroundLight);
-        document.documentElement.style.setProperty('--color-text-light', savedPalette.textLight);
-
-        // Apply Dark Mode Colors
-        document.documentElement.style.setProperty('--color-primary-dark', savedPalette.primaryDark);
-        document.documentElement.style.setProperty('--color-secondary-dark', savedPalette.secondaryDark);
-        document.documentElement.style.setProperty('--color-background-dark', savedPalette.backgroundDark);
-        document.documentElement.style.setProperty('--color-text-dark', savedPalette.textDark);
-
-        // Update color input values for both light and dark modes
-        document.getElementById('primary-color-light').value = savedPalette.primaryLight;
-        document.getElementById('secondary-color-light').value = savedPalette.secondaryLight;
-        document.getElementById('background-color-light').value = savedPalette.backgroundLight;
-        document.getElementById('text-color-light').value = savedPalette.textLight;
-
-        document.getElementById('primary-color-dark').value = savedPalette.primaryDark;
-        document.getElementById('secondary-color-dark').value = savedPalette.secondaryDark;
-        document.getElementById('background-color-dark').value = savedPalette.backgroundDark;
-        document.getElementById('text-color-dark').value = savedPalette.textDark;
-      }
-
-      /* About Me Text Rotation */
-      const aboutText = document.getElementById('about-text');
-      const aboutTexts = [
-        "I am a dedicated Minecraft and backend developer with a passion for creating innovative solutions and pushing the boundaries of what's possible in both gaming and software development.",
-        "Specializing in Minecraft plugins, I enhance gameplay experiences with unique features and mechanics.",
-        "Passionate about backend systems, I design and implement scalable solutions to optimize performance.",
-        "Loves creating innovative solutions that bridge the gap between gaming and technology.",
-        "Committed to continuous learning, I stay updated with the latest trends in software development.",
-        "Building scalable applications that cater to diverse user needs and improve overall functionality.",
-        "Enjoys collaborating on projects, fostering teamwork, and driving successful outcomes."
-      ];
-      let currentIndex = 0;
-      const animationDuration = 2500; // 2.5 seconds
-      const rotationInterval = 30000; // 30 seconds
-
-      function animateTextChange(newText) {
-        const originalText = aboutText.textContent;
-        const length = originalText.length;
-        let step = 0;
-        const totalSteps = animationDuration / 100; // Update every 100ms
-        const shrinkSteps = Math.floor(totalSteps / 2);
-        const expandSteps = totalSteps - shrinkSteps;
-        const interval = setInterval(() => {
-          if (step < shrinkSteps) {
-            // Shrinking and randomizing
-            const randomLength = Math.max(Math.floor(length * (1 - step / shrinkSteps)), 5);
-            let randomized = '';
-            for (let i = 0; i < randomLength; i++) {
-              randomized += String.fromCharCode(33 + Math.floor(Math.random() * 94)); // Random ASCII chars
+    <!-- Inline Script -->
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                currentYear: new Date().getFullYear(),
+                aboutTexts: [
+                    "I am a dedicated Minecraft and backend developer with a passion for creating innovative solutions and pushing the boundaries of what's possible in both gaming and software development.",
+                    "Specializing in Minecraft plugins, I enhance gameplay experiences with unique features and mechanics.",
+                    "Passionate about backend systems, I design and implement scalable solutions to optimize performance.",
+                    "Loves creating innovative solutions that bridge the gap between gaming and technology.",
+                    "Committed to continuous learning, I stay updated with the latest trends in software development.",
+                    "Building scalable applications that cater to diverse user needs and improve overall functionality.",
+                    "Enjoys collaborating on projects, fostering teamwork, and driving successful outcomes."
+                ],
+                currentAboutIndex: 0,
+                aboutText: "",
+                aboutAnimationInterval: null,
+                projects: [
+                    {
+                        id: 1,
+                        title: "Portfolio",
+                        description: "An ongoing developed website that shows projects!",
+                        image: "https://placehold.co/600x200.png",
+                        page: "https://freezy.me",
+                        github: "https://github.com/DrFreezyYT/portfolio",
+                        download: null,
+                        status: "iw" // in work
+                    },
+                    {
+                        id: 2,
+                        title: "Minecraft Enchant Order",
+                        description: "A calculator for making the most efficient enchants in Minecraft!",
+                        image: "https://raw.githubusercontent.com/DrFreezyYT/drfreezyyt.github.io/main/A3326941-7740-44B4-B16E-24B3CE2BCEA2.webp",
+                        page: "https://enchant.freezy.me/",
+                        github: "https://github.com/DrFreezyYT/enchant-order.github.io",
+                        download: null,
+                        status: "on" // online
+                    },
+                    {
+                        id: 3,
+                        title: "Minecraft Server TOS",
+                        description: "A simple static site for simple TOS for a german minecraft server!",
+                        image: "https://placehold.co/600x200.png",
+                        page: "https://tos.freezy.me/",
+                        github: "https://github.com/DrFreezyYT/mctos.github.io",
+                        download: null,
+                        status: "on" // discontinued
+                    },
+                    {
+                        id: 4,
+                        title: "Admin Utils",
+                        description: "A simple plugin to prevent Admins from cheating in creative!",
+                        image: "https://placehold.co/600x200.png",
+                        page: null,
+                        github: "https://github.com/shield-break-net/adminutils",
+                        download: "https://github.com/shield-break-net/adminutils/blob/master/target/original-adminutils-0.0.1-alpha.jar",
+                        status: "iw"
+                    }
+                    // Add more projects as needed
+                ]
+            },
+            methods: {
+                scrollTo(sectionId) {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        window.scrollTo({
+                            top: section.offsetTop - 70, // Adjust for header height
+                            behavior: 'smooth'
+                        });
+                    }
+                },
+                statusClass(status) {
+                    const statusMap = {
+                        on: "bg-green-500",
+                        off: "bg-red-500",
+                        dis: "bg-gray-500",
+                        iw: "bg-yellow-400"
+                    };
+                    return statusMap[status] || "bg-gray-500";
+                },
+                statusDisplay(status) {
+                    const displayMap = {
+                        on: "Online",
+                        off: "Offline",
+                        dis: "Discontinued",
+                        iw: "In Work"
+                    };
+                    return displayMap[status] || "Unknown";
+                },
+                rotateAboutText() {
+                    const nextIndex = (this.currentAboutIndex + 1) % this.aboutTexts.length;
+                    const newText = this.aboutTexts[nextIndex];
+                    this.animateTextChange(newText);
+                    this.currentAboutIndex = nextIndex;
+                },
+                animateTextChange(newText) {
+                    const originalText = this.aboutText;
+                    const length = originalText.length;
+                    let step = 0;
+                    const totalSteps = 25; // Adjust for smoother/faster animation
+                    const shrinkSteps = Math.floor(totalSteps / 2);
+                    const expandSteps = totalSteps - shrinkSteps;
+                    const interval = setInterval(() => {
+                        if (step < shrinkSteps) {
+                            // Shrinking and randomizing
+                            const randomLength = Math.max(Math.floor(length * (1 - step / shrinkSteps)), 5);
+                            let randomized = '';
+                            for (let i = 0; i < randomLength; i++) {
+                                randomized += String.fromCharCode(33 + Math.floor(Math.random() * 94)); // Random ASCII chars
+                            }
+                            this.aboutText = randomized;
+                        } else if (step < totalSteps) {
+                            // Expanding to new text
+                            const progress = (step - shrinkSteps) / expandSteps;
+                            const newLength = Math.min(Math.floor(newText.length * progress), newText.length);
+                            this.aboutText = newText.substring(0, newLength);
+                        } else {
+                            // Final step to ensure full text
+                            this.aboutText = newText;
+                            clearInterval(interval);
+                        }
+                        step++;
+                    }, 100); // Adjust timing per step
+                }
+            },
+            mounted() {
+                // Initialize About Me text
+                this.aboutText = this.aboutTexts[this.currentAboutIndex];
+                this.aboutAnimationInterval = setInterval(this.rotateAboutText, 30000); // 30 seconds
+            },
+            beforeDestroy() {
+                clearInterval(this.aboutAnimationInterval);
             }
-            aboutText.textContent = randomized;
-          } else if (step < totalSteps) {
-            // Expanding to new text
-            const progress = (step - shrinkSteps) / expandSteps;
-            const newLength = Math.min(Math.floor(newText.length * progress), newText.length);
-            aboutText.textContent = newText.substring(0, newLength);
-          } else {
-            // Final step to ensure full text
-            aboutText.textContent = newText;
-            clearInterval(interval);
-          }
-          step++;
-        }, 100);
-      }
-
-      function rotateAboutText() {
-        const nextIndex = (currentIndex + 1) % aboutTexts.length;
-        const newText = aboutTexts[nextIndex];
-        animateTextChange(newText);
-        currentIndex = nextIndex;
-      }
-
-      // Initial rotation setup
-      setInterval(rotateAboutText, rotationInterval);
-    });
-  </script>
+        });
+    </script>
 </body>
+
 </html>
